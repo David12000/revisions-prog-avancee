@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Flashcards CI/CD & GitHub Actions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --app-bg: #f8fafc;
+      --app-text: #0f172a;
+      --card-bg: #ffffff;
+      --card-border: #e2e8f0;
+      --accent-color: #3b82f6;
+      --accent-hover: #2563eb;
+      --success-color: #10b981;
+      --danger-color: #ef4444;
+      --flash-front-bg: linear-gradient(145deg, #ffffff, #f8fafc);
+      --flash-back-bg: linear-gradient(145deg, #ffffff, #f1f5f9);
+      --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-strong: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    body {
+      font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+      background-color: var(--app-bg);
+      color: var(--app-text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .main-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      width: 100%;
+    }
+
+    .stat-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-soft);
+      height: 100%;
+      transition: transform 0.2s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .flashcard-wrapper {
+      perspective: 1500px;
+      margin-bottom: 2rem;
+    }
+
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      min-height: 550px;
+      transform-style: preserve-3d;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-strong);
+      border-radius: 1.5rem;
+    }
+
+    .flashcard-inner.is-flipped {
+      transform: rotateY(180deg);
+    }
+
+    .flashcard-face {
+      position: absolute;
+      inset: 0;
+      border-radius: 1.5rem;
+      padding: 3rem;
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid var(--card-border);
+    }
+
+    .flashcard-face-front {
+      background: var(--flash-front-bg);
+    }
+
+    .flashcard-face-back {
+      transform: rotateY(180deg);
+      background: var(--flash-back-bg);
+    }
+
+    .badge-soft {
+      background-color: rgba(59, 130, 246, 0.1);
+      color: #2563eb;
+      padding: 0.35em 0.8em;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-color);
+      border-color: var(--accent-color);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
+
+    .btn-success {
+      background-color: var(--success-color);
+      border-color: var(--success-color);
+    }
+
+    .btn-outline-danger {
+      color: var(--danger-color);
+      border-color: var(--danger-color);
+    }
+
+    .btn-outline-danger:hover {
+      background-color: var(--danger-color);
+      color: white;
+    }
+
+    .progress {
+      background-color: var(--card-border);
+      height: 10px;
+      border-radius: 99px;
+    }
+
+    .form-select {
+        background-color: var(--card-bg);
+        border-color: var(--card-border);
+        color: var(--app-text);
+        border-radius: 0.75rem;
+        padding: 0.6rem;
+    }
+
+    @media (max-width: 992px) {
+      body {
+        justify-content: flex-start;
+      }
+      .flashcard-face {
+        padding: 2rem;
+      }
+      .flashcard-inner {
+        min-height: 700px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="main-container">
+    <div class="row gy-4">
+      <div class="col-lg-8">
+        <div class="flashcard-wrapper">
+          <div id="flashcardInner" class="flashcard-inner">
+            <div class="flashcard-face flashcard-face-front">
+              <div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <span class="badge-soft" id="frontCourse">Cours</span>
+                  <span class="text-muted small fw-bold" id="cardIndex"></span>
+                </div>
+                <h2 class="h3 mb-4" id="cardQuestion">
+                  Chargement...
+                </h2>
+                <p class="text-muted small fst-italic mb-0" id="cardHint"></p>
+              </div>
+              <div class="text-center mt-4">
+                <button class="btn btn-primary w-100 mb-2" id="showAnswerBtn" type="button">
+                  Afficher la réponse
+                </button>
+                <div class="small opacity-50">
+                  Essayez de formuler la réponse avant de cliquer
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard-face flashcard-face-back">
+              <div>
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div class="d-flex gap-2 align-items-center flex-wrap">
+                    <span class="badge-soft" id="backCourse"></span>
+                    <span class="badge bg-secondary bg-opacity-10 text-reset small" id="cardTopic"></span>
+                  </div>
+                  <button class="btn btn-sm btn-outline-secondary py-1 px-3" id="flipBackBtn" type="button" style="font-size: 0.8rem;">
+                    ↩ Question
+                  </button>
+                </div>
+                <h2 class="h5 text-uppercase text-muted mb-3 small fw-bold">Réponse</h2>
+                <div id="cardAnswer" class="mb-4 fs-5"></div>
+                <div id="cardTags" class="d-flex flex-wrap gap-2"></div>
+              </div>
+              
+              <div class="mt-4 pt-3 border-top border-secondary border-opacity-25">
+                <div class="mb-3 fw-bold small text-center text-uppercase text-muted">
+                  Auto-évaluation
+                </div>
+                <div class="d-flex gap-3">
+                  <button class="btn btn-outline-danger flex-fill py-3" id="didntKnowBtn" type="button">
+                    ❌ Je n'ai pas su
+                  </button>
+                  <button class="btn btn-success flex-fill py-3" id="knewBtn" type="button">
+                    👍 J'avais bon
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="d-flex flex-column gap-3 h-100">
+          
+          <div class="stat-card">
+            <h3 class="h6 text-uppercase text-muted mb-3 fw-bold">Session actuelle</h3>
+            <div class="row g-2 text-center mb-3">
+              <div class="col-4">
+                <div class="p-2 rounded bg-opacity-10 bg-secondary">
+                  <div class="fw-bold fs-5" id="sessionReviewed">0</div>
+                  <div class="small text-muted" style="font-size: 0.7rem;">Vues</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="p-2 rounded bg-opacity-10 bg-success">
+                  <div class="fw-bold fs-5 text-success" id="sessionCorrect">0</div>
+                  <div class="small text-muted" style="font-size: 0.7rem;">Justes</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="p-2 rounded bg-opacity-10 bg-danger">
+                  <div class="fw-bold fs-5 text-danger" id="sessionWrong">0</div>
+                  <div class="small text-muted" style="font-size: 0.7rem;">Erreurs</div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center mb-3 small text-muted">
+              Série actuelle : <strong id="bestStreak" class="text-primary">0</strong> 🔥
+            </div>
+            <div class="d-grid gap-2">
+              <button class="btn btn-outline-secondary btn-sm" id="resetSessionBtn" type="button">
+                Réinitialiser la session
+              </button>
+              <button class="btn btn-link btn-sm text-danger text-decoration-none" id="resetAllBtn" type="button">
+                Effacer toute la progression
+              </button>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <h3 class="h6 text-uppercase text-muted mb-3 fw-bold">Taux d'erreur par module</h3>
+            <div id="moduleStats" class="d-flex flex-column gap-3"></div>
+            <p class="small text-muted mt-3 mb-0">
+              Ces barres indiquent le pourcentage d'erreurs commises sur les cartes vues pour chaque module.
+            </p>
+          </div>
+
+          <div class="stat-card">
+            <h3 class="h6 text-uppercase text-muted mb-3 fw-bold">Filtrer par module</h3>
+            <select class="form-select" id="courseFilter"></select>
+            <p class="small text-muted mt-2 mb-0">
+              Sélectionnez un chapitre spécifique ou révisez tout le contenu.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const COURSES = {
+      C01: { id: "C01", label: "C01 — Intro Automatisation" },
+      C02: { id: "C02", label: "C02 — Intro GitHub Actions" },
+      C03: { id: "C03", label: "C03 — GH Actions Avancé 1" },
+      C04: { id: "C04", label: "C04 — GH Actions Avancé 2" },
+    };
+
+    let CARD_DECK = [];
+    const STORAGE_KEY = "cicd_flashcards_state_v1";
+    let currentFilter = "all";
+    let currentCard = null;
+
+    let appState = {
+      version: 1,
+      step: 0,
+      cards: {},
+    };
+
+    let sessionStats = {
+      reviewed: 0,
+      correct: 0,
+      wrong: 0,
+      streak: 0,
+      bestStreak: 0,
+    };
+
+    function defaultCardState(id) {
+      return {
+        id,
+        repetitions: 0,
+        interval: 1,
+        efactor: 2.5,
+        due: 0,
+        success: 0,
+        fail: 0,
+        lastReview: null,
+        lastResult: null,
+      };
+    }
+
+    function createInitialState() {
+      const cardsState = {};
+      CARD_DECK.forEach((card) => {
+        cardsState[card.id] = defaultCardState(card.id);
+      });
+      return {
+        version: 1,
+        step: 0,
+        cards: cardsState,
+      };
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && parsed.cards) {
+            appState = parsed;
+          } else {
+            appState = createInitialState();
+          }
+        } else {
+          appState = createInitialState();
+        }
+      } catch (e) {
+        appState = createInitialState();
+      }
+
+      const cardsState = appState.cards || {};
+      CARD_DECK.forEach((card) => {
+        if (!cardsState[card.id]) {
+          cardsState[card.id] = defaultCardState(card.id);
+        }
+      });
+      Object.keys(cardsState).forEach((id) => {
+        const exists = CARD_DECK.some((card) => card.id === id);
+        if (!exists) {
+          delete cardsState[id];
+        }
+      });
+      appState.cards = cardsState;
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (e) {}
+    }
+
+    function getActiveDeck() {
+      if (currentFilter === "all") {
+        return CARD_DECK;
+      }
+      return CARD_DECK.filter((card) => card.courseId === currentFilter);
+    }
+
+    function pickNextCard() {
+      const deck = getActiveDeck();
+      if (!deck.length) return null;
+      const step = appState.step || 0;
+      const cardsState = appState.cards || {};
+
+      const dueCards = deck.filter((card) => {
+        const s = cardsState[card.id] || defaultCardState(card.id);
+        return s.due <= step;
+      });
+
+      const candidatePool = dueCards.length ? dueCards : deck;
+
+      candidatePool.sort((a, b) => {
+        const sa = cardsState[a.id] || defaultCardState(a.id);
+        const sb = cardsState[b.id] || defaultCardState(b.id);
+
+        const scoreA = (sa.repetitions || 0) - 2 * (sa.fail || 0);
+        const scoreB = (sb.repetitions || 0) - 2 * (sb.fail || 0);
+
+        if (sa.due !== sb.due) return sa.due - sb.due;
+        if (scoreA !== scoreB) return scoreA - scoreB;
+        return (sa.lastReview || 0) - (sb.lastReview || 0);
+      });
+
+      const topCandidates = candidatePool.slice(0, 3);
+      const randomIndex = Math.floor(Math.random() * topCandidates.length);
+      return topCandidates[randomIndex];
+    }
+
+    function renderTags(tags) {
+      const container = document.getElementById("cardTags");
+      container.innerHTML = "";
+      if (!tags || !tags.length) return;
+      tags.forEach((tag) => {
+        const span = document.createElement("span");
+        span.className = "badge rounded-pill bg-primary bg-opacity-10 text-primary border border-primary border-opacity-10";
+        span.textContent = tag;
+        container.appendChild(span);
+      });
+    }
+
+    function showNextCard() {
+      const inner = document.getElementById("flashcardInner");
+      if (inner) {
+        inner.classList.remove("is-flipped");
+      }
+
+      const card = pickNextCard();
+      if (!card) return;
+      currentCard = card;
+
+      const courseMeta = COURSES[card.courseId];
+      const frontCourse = document.getElementById("frontCourse");
+      const backCourse = document.getElementById("backCourse");
+      const cardQuestion = document.getElementById("cardQuestion");
+      const cardHint = document.getElementById("cardHint");
+      const cardAnswer = document.getElementById("cardAnswer");
+      const cardTopic = document.getElementById("cardTopic");
+      const cardIndex = document.getElementById("cardIndex");
+
+      const globalIndex = CARD_DECK.findIndex((c) => c.id === card.id) + 1 || "?";
+
+      if (frontCourse && courseMeta) frontCourse.textContent = courseMeta.label;
+      if (backCourse && courseMeta) backCourse.textContent = courseMeta.label;
+      if (cardQuestion) cardQuestion.textContent = card.question;
+      
+      if (cardHint) {
+        const state = appState.cards[card.id] || defaultCardState(card.id);
+        if ((state.success || 0) === 0 && (state.fail || 0) === 0) {
+          cardHint.textContent = "Nouvelle carte ✨";
+        } else if ((state.fail || 0) > (state.success || 0)) {
+          cardHint.textContent = "Carte à renforcer 💪";
+        } else {
+          cardHint.textContent = "";
+        }
+      }
+
+      if (cardAnswer) cardAnswer.innerHTML = card.answer.replace(/\n/g, "<br>");
+      if (cardTopic) cardTopic.textContent = card.topic || "";
+      if (cardIndex) cardIndex.textContent = `Carte ${globalIndex} sur ${CARD_DECK.length}`;
+
+      renderTags(card.tags);
+    }
+
+    function updateSRS(cardState, grade, nextStep) {
+      if (grade >= 3) {
+        cardState.repetitions = (cardState.repetitions || 0) + 1;
+        if (cardState.repetitions === 1) {
+          cardState.interval = 1;
+        } else if (cardState.repetitions === 2) {
+          cardState.interval = 6;
+        } else {
+          cardState.interval = Math.round(cardState.interval * (cardState.efactor || 2.5));
+        }
+      } else {
+        cardState.repetitions = 0;
+        cardState.interval = 1;
+      }
+
+      const q = grade;
+      cardState.efactor = cardState.efactor || 2.5;
+      cardState.efactor = cardState.efactor + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
+      if (cardState.efactor < 1.3) cardState.efactor = 1.3;
+
+      if (grade >= 3) {
+        cardState.success = (cardState.success || 0) + 1;
+        cardState.lastResult = "success";
+      } else {
+        cardState.fail = (cardState.fail || 0) + 1;
+        cardState.lastResult = "fail";
+      }
+
+      cardState.lastReview = Date.now();
+      cardState.due = nextStep + cardState.interval;
+    }
+
+    function computeMasteredCount() {
+      let mastered = 0;
+      const cardsState = appState.cards || {};
+      CARD_DECK.forEach((card) => {
+        const s = cardsState[card.id];
+        if (!s) return;
+        if (s.repetitions >= 3 && (s.success || 0) >= (s.fail || 0)) {
+          mastered += 1;
+        }
+      });
+      return mastered;
+    }
+
+    function renderModuleStats() {
+      const container = document.getElementById("moduleStats");
+      if (!container) return;
+      container.innerHTML = "";
+
+      const stats = {};
+      Object.keys(COURSES).forEach(k => {
+        stats[k] = { fails: 0, total: 0 };
+      });
+
+      const cardsState = appState.cards || {};
+      CARD_DECK.forEach(card => {
+        const state = cardsState[card.id];
+        if (state) {
+          const fails = state.fail || 0;
+          const successes = state.success || 0;
+          const attempts = fails + successes;
+          if (attempts > 0 && stats[card.courseId]) {
+            stats[card.courseId].fails += fails;
+            stats[card.courseId].total += attempts;
+          }
+        }
+      });
+
+      Object.entries(COURSES).forEach(([key, course]) => {
+        const data = stats[key];
+        let percent = 0;
+        if (data && data.total > 0) {
+          percent = Math.round((data.fails / data.total) * 100);
+        }
+
+        const div = document.createElement("div");
+        div.innerHTML = `
+          <div class="d-flex justify-content-between small mb-1">
+            <span class="text-truncate pe-2" style="max-width: 220px;">${course.label}</span>
+            <span class="fw-bold ${percent > 40 ? 'text-danger' : 'text-muted'}">${percent}%</span>
+          </div>
+          <div class="progress" style="height: 6px;">
+            <div class="progress-bar bg-danger" role="progressbar" style="width: ${percent}%" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function renderStats() {
+      const masteredCountEl = document.getElementById("masteredCount");
+      const totalCountEl = document.getElementById("totalCount");
+      const masteredProgress = document.getElementById("masteredProgress");
+      const sessionReviewedEl = document.getElementById("sessionReviewed");
+      const sessionCorrectEl = document.getElementById("sessionCorrect");
+      const sessionWrongEl = document.getElementById("sessionWrong");
+      const bestStreakEl = document.getElementById("bestStreak");
+
+      const total = CARD_DECK.length;
+      const mastered = computeMasteredCount();
+      const ratio = total ? Math.round((mastered * 100) / total) : 0;
+
+      if (masteredCountEl) masteredCountEl.textContent = mastered;
+      if (totalCountEl) totalCountEl.textContent = total;
+      if (masteredProgress) masteredProgress.style.width = ratio + "%";
+      if (sessionReviewedEl) sessionReviewedEl.textContent = sessionStats.reviewed;
+      if (sessionCorrectEl) sessionCorrectEl.textContent = sessionStats.correct;
+      if (sessionWrongEl) sessionWrongEl.textContent = sessionStats.wrong;
+      if (bestStreakEl) bestStreakEl.textContent = sessionStats.bestStreak;
+
+      renderModuleStats();
+    }
+
+    function handleAnswer(isCorrect) {
+      if (!currentCard) return;
+      const cardsState = appState.cards || {};
+      const cardState = cardsState[currentCard.id] || defaultCardState(currentCard.id);
+      const currentStep = appState.step || 0;
+      const nextStep = currentStep + 1;
+
+      const grade = isCorrect ? 5 : 2;
+      updateSRS(cardState, grade, nextStep);
+      cardsState[currentCard.id] = cardState;
+      appState.cards = cardsState;
+      appState.step = nextStep;
+      saveState();
+
+      sessionStats.reviewed += 1;
+      if (isCorrect) {
+        sessionStats.correct += 1;
+        sessionStats.streak += 1;
+        if (sessionStats.streak > sessionStats.bestStreak) {
+          sessionStats.bestStreak = sessionStats.streak;
+        }
+      } else {
+        sessionStats.wrong += 1;
+        sessionStats.streak = 0;
+      }
+
+      renderStats();
+      showNextCard();
+    }
+
+    function resetSession() {
+      sessionStats = { reviewed: 0, correct: 0, wrong: 0, streak: 0, bestStreak: 0 };
+      renderStats();
+    }
+
+    function resetAllProgress() {
+      const ok = window.confirm("Vous allez supprimer toute votre progression. Continuer ?");
+      if (!ok) return;
+      appState = createInitialState();
+      saveState();
+      resetSession();
+      showNextCard();
+    }
+
+    function populateFilter() {
+      const filter = document.getElementById("courseFilter");
+      if (!filter) return;
+      filter.innerHTML = "";
+
+      const optAll = document.createElement("option");
+      optAll.value = "all";
+      optAll.textContent = "Tous les chapitres";
+      filter.appendChild(optAll);
+
+      Object.values(COURSES).forEach((c) => {
+        const opt = document.createElement("option");
+        opt.value = c.id;
+        opt.textContent = c.label;
+        filter.appendChild(opt);
+      });
+
+      filter.value = currentFilter;
+    }
+
+    function bindUI() {
+      const showAnswerBtn = document.getElementById("showAnswerBtn");
+      const knewBtn = document.getElementById("knewBtn");
+      const didntKnowBtn = document.getElementById("didntKnowBtn");
+      const resetSessionBtn = document.getElementById("resetSessionBtn");
+      const resetAllBtn = document.getElementById("resetAllBtn");
+      const courseFilter = document.getElementById("courseFilter");
+      const flipBackBtn = document.getElementById("flipBackBtn");
+      const inner = document.getElementById("flashcardInner");
+
+      if (showAnswerBtn && inner) {
+        showAnswerBtn.addEventListener("click", () => {
+          inner.classList.add("is-flipped");
+        });
+      }
+      if (flipBackBtn && inner) {
+        flipBackBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            inner.classList.remove("is-flipped");
+        });
+      }
+      if (knewBtn) {
+        knewBtn.addEventListener("click", () => handleAnswer(true));
+      }
+      if (didntKnowBtn) {
+        didntKnowBtn.addEventListener("click", () => handleAnswer(false));
+      }
+      if (resetSessionBtn) {
+        resetSessionBtn.addEventListener("click", resetSession);
+      }
+      if (resetAllBtn) {
+        resetAllBtn.addEventListener("click", resetAllProgress);
+      }
+      if (courseFilter) {
+        courseFilter.addEventListener("change", (e) => {
+          currentFilter = e.target.value || "all";
+          showNextCard();
+        });
+      }
+    }
+
+    async function initApp() {
+        try {
+            const response = await fetch('questions.json');
+            if (!response.ok) throw new Error('Network response was not ok');
+            CARD_DECK = await response.json();
+            
+            populateFilter();
+            loadState();
+            renderStats();
+            bindUI();
+            showNextCard();
+        } catch (error) {
+            console.error("Erreur chargement:", error);
+            const main = document.querySelector('main');
+            if(main) {
+                main.innerHTML = `<div class="alert alert-danger text-center mt-5">Impossible de charger le fichier <strong>questions.json</strong>.</div>`;
+            }
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", initApp);
+  </script>
+</body>
+
+</html>
+

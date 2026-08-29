@@ -1,0 +1,686 @@
+[
+  {
+    "id": "C01-01",
+    "courseId": "C01",
+    "topic": "Définition d'un framework",
+    "question": "Comment définir un framework et quels types d'éléments fournit-il généralement à une application ?",
+    "answer": "Un framework est un cadre de développement qui fournit un ensemble de composants, généralement sous forme de bibliothèques, ainsi qu'une architecture logicielle, des conventions et des normes à respecter. Il peut notamment prendre en charge la persistance des données, la sécurité ou la restitution des données à l'utilisateur.",
+    "tags": [
+      "Framework",
+      "Architecture",
+      "Composants"
+    ]
+  },
+  {
+    "id": "C01-02",
+    "courseId": "C01",
+    "topic": "Micro-framework vs framework",
+    "question": "Quelles différences principales opposent un micro-framework à un framework complet ?",
+    "answer": "Un micro-framework privilégie la simplicité, la légèreté, la souplesse et une courbe d'apprentissage réduite, mais offre moins de fonctionnalités. Un framework complet est plus riche, plus standardisé et propose une solution plus globale, au prix d'une plus grande complexité et d'une courbe d'apprentissage souvent plus abrupte.",
+    "tags": [
+      "Micro-framework",
+      "Framework",
+      "Complexité"
+    ]
+  },
+  {
+    "id": "C01-03",
+    "courseId": "C01",
+    "topic": "Meta-framework",
+    "question": "Quel est le rôle d'un meta-framework et donnez deux exemples cités dans le cours ?",
+    "answer": "Un meta-framework encapsule, coordonne et complète d'autres frameworks ou bibliothèques afin de fournir une couche d'orchestration : routage, déploiement, conventions de structure, etc. Par exemple : Next.js, Nuxt, SvelteKit, Astro et Remix/React Router.",
+    "tags": [
+      "Meta-framework",
+      "Next.js",
+      "Nuxt"
+    ]
+  },
+  {
+    "id": "C01-04",
+    "courseId": "C01",
+    "topic": "Avantages des frameworks",
+    "question": "Pourquoi l'utilisation d'un framework peut-elle réduire le temps de développement et faciliter la maintenance ?",
+    "answer": "Le framework fournit une architecture de fichiers prédéfinie, des composants réutilisables, des outils intégrés et des normes de codage homogènes. Les développeurs passent ainsi moins de temps à reconstruire des mécanismes courants et bénéficient d'une organisation qui facilite la compréhension, les tests et la maintenance du code.",
+    "tags": [
+      "Productivité",
+      "Maintenance",
+      "Réutilisation"
+    ]
+  },
+  {
+    "id": "C01-05",
+    "courseId": "C01",
+    "topic": "Limites des frameworks",
+    "question": "Citez trois inconvénients possibles liés à l'utilisation d'un framework.",
+    "answer": "Un framework peut imposer un temps d'apprentissage important, introduire de la rigidité, produire un code plus lourd pour des besoins simples, nécessiter des adaptations lors des mises à jour et entraîner une migration coûteuse lorsqu'il arrive en fin de vie.",
+    "tags": [
+      "Inconvénients",
+      "Apprentissage",
+      "Maintenance"
+    ]
+  },
+  {
+    "id": "C01-06",
+    "courseId": "C01",
+    "topic": "Choix d'un framework",
+    "question": "Quels critères faut-il examiner avant de choisir un framework applicatif ?",
+    "answer": "Le choix doit notamment tenir compte de la popularité, de la qualité de la documentation, de la fréquence des mises à jour, des besoins et contraintes du projet, de la compatibilité avec le système existant, des coûts, des compétences disponibles, de la facilité de recrutement, du support technique, de l'évolutivité et des performances attendues.",
+    "tags": [
+      "Choix",
+      "Critères",
+      "Support"
+    ]
+  },
+  {
+    "id": "C01-08",
+    "courseId": "C01",
+    "topic": "Faible couplage",
+    "question": "Pourquoi cherche-t-on à réduire le couplage entre les différentes couches d'une application ?",
+    "answer": "Un faible couplage limite l'impact des modifications, facilite la maintenance, l'évolution, les tests et le déploiement. Les composants peuvent être modifiés ou remplacés plus facilement, notamment lorsqu'ils communiquent au travers d'interfaces.",
+    "tags": [
+      "Couplage",
+      "Interfaces",
+      "Testabilité"
+    ]
+  },
+  {
+    "id": "C01-09",
+    "courseId": "C01",
+    "topic": "SOLID",
+    "question": "Que signifie le principe DIP de SOLID et quel lien entretient-il avec le faible couplage ?",
+    "answer": "DIP signifie Dependency Inversion Principle, ou principe d'inversion de dépendance. Il recommande de dépendre d'abstractions plutôt que d'implémentations concrètes, ce qui réduit le couplage et facilite le remplacement des composants.",
+    "tags": [
+      "SOLID",
+      "DIP",
+      "Abstraction"
+    ]
+  },
+  {
+    "id": "C01-10",
+    "courseId": "C01",
+    "topic": "Inversion de contrôle",
+    "question": "Qu'est-ce que l'inversion de contrôle et quelle responsabilité est transférée au framework ou au conteneur ?",
+    "answer": "L'inversion de contrôle modifie la gestion du flux de contrôle de l'application en transférant au framework ou au conteneur la responsabilité de l'exécution, ainsi que souvent la création, le cycle de vie et la gestion des dépendances des objets.",
+    "tags": [
+      "IoC",
+      "Inversion de contrôle",
+      "Conteneur"
+    ]
+  },
+  {
+    "id": "C01-11",
+    "courseId": "C01",
+    "topic": "Injection de dépendances",
+    "question": "Quel est le rôle d'un injecteur de dépendances dans un framework moderne ?",
+    "answer": "L'injecteur gère la création, la configuration et l'assemblage des objets selon les principes d'inversion de contrôle. Il résout automatiquement les dépendances définies dans un conteneur IoC et améliore la testabilité en permettant de remplacer des dépendances par des mocks ou des stubs.",
+    "tags": [
+      "Injection de dépendances",
+      "IoC",
+      "Mocks"
+    ]
+  },
+  {
+    "id": "C01-12",
+    "courseId": "C01",
+    "topic": "Framework vs librairie",
+    "question": "Quelle différence fondamentale existe-t-il entre une librairie et un framework du point de vue du contrôle du flux de l'application ?",
+    "answer": "Avec une librairie, le développeur garde le contrôle du flux et appelle les fonctions ou classes quand il en a besoin. Avec un framework, l'inversion de contrôle s'applique : le framework dicte le flux général et appelle le code du développeur au moment approprié.",
+    "tags": [
+      "Librairie",
+      "Framework",
+      "Flux de contrôle"
+    ]
+  },
+  {
+    "id": "C02-02",
+    "courseId": "C02",
+    "topic": "Jakarta EE",
+    "question": "Qu'est-ce que Jakarta EE et quel est son lien avec Java SE ?",
+    "answer": "Jakarta EE est l'ancien Java EE, désormais piloté par la Fondation Eclipse. Il s'agit d'un ensemble de spécifications qui étend Java SE pour fournir des API adaptées aux applications d'entreprise, notamment pour les transactions, la sécurité, la concurrence, le déploiement et la scalabilité.",
+    "tags": [
+      "Jakarta EE",
+      "Java SE",
+      "Spécifications"
+    ]
+  },
+  {
+    "id": "C02-03",
+    "courseId": "C02",
+    "topic": "Intérêts de Jakarta EE",
+    "question": "Quels avantages Jakarta EE apporte-t-il au développement d'applications d'entreprise ?",
+    "answer": "Jakarta EE facilite le développement d'applications robustes et performantes grâce à un modèle de programmation simplifié, aux annotations et à l'injection de dépendances. Le serveur d'application prend en charge de nombreux services techniques comme les transactions, la sécurité, la concurrence et le cycle de vie des composants.",
+    "tags": [
+      "Jakarta EE",
+      "Services techniques",
+      "Entreprise"
+    ]
+  },
+  {
+    "id": "C02-05",
+    "courseId": "C02",
+    "topic": "Composant et conteneur",
+    "question": "Quelle différence entre un composant Jakarta EE et un conteneur ?",
+    "answer": "Un composant est une brique logicielle réutilisable, configurable et remplaçable respectant des interfaces définies. Un conteneur gère un type de composant et lui fournit des services techniques comme les transactions, la concurrence ou la gestion du cycle de vie.",
+    "tags": [
+      "Composant",
+      "Conteneur",
+      "Cycle de vie"
+    ]
+  },
+  {
+    "id": "C02-07",
+    "courseId": "C02",
+    "topic": "Conteneur Web",
+    "question": "Quel est le rôle du conteneur Web dans une application Jakarta EE ?",
+    "answer": "Le conteneur Web traite les requêtes reçues par le serveur web, exécute les traitements liés à l'interface utilisateur ou aux services web, génère les réponses et assure la transformation entre les requêtes HTTP et les objets Java.",
+    "tags": [
+      "Conteneur Web",
+      "HTTP",
+      "Servlet"
+    ]
+  },
+  {
+    "id": "C02-08",
+    "courseId": "C02",
+    "topic": "Conteneur EJB",
+    "question": "Quel rôle joue un conteneur EJB dans l'architecture Jakarta EE décrite dans le cours ?",
+    "answer": "Le conteneur EJB héberge les traitements métier organisés sous forme d'Enterprise Java Beans. Il prend en charge l'exécution de ces composants et la gestion de leur cycle de vie.",
+    "tags": [
+      "EJB",
+      "Conteneur",
+      "Logique métier"
+    ]
+  },
+  {
+    "id": "C02-09",
+    "courseId": "C02",
+    "topic": "Packaging",
+    "question": "Que contiennent respectivement les archives JAR, WAR et EAR dans une application Jakarta EE ?",
+    "answer": "Une archive JAR peut contenir des EJB, une archive WAR contient les composants web comme les Servlets, JSP et ressources front-end, et une archive EAR regroupe des modules WAR et JAR pour former une application d'entreprise.",
+    "tags": [
+      "JAR",
+      "WAR",
+      "EAR"
+    ]
+  },
+  {
+    "id": "C02-10",
+    "courseId": "C02",
+    "topic": "Servlets",
+    "question": "Quel est le rôle d'une Servlet et qui gère son cycle de vie ?",
+    "answer": "Une Servlet est un composant Jakarta qui traite les requêtes d'un client dans un conteneur Web. Son cycle de vie, comprenant l'instanciation, l'initialisation, le traitement des requêtes et la destruction, est géré par le conteneur.",
+    "tags": [
+      "Servlet",
+      "Cycle de vie",
+      "Conteneur Web"
+    ]
+  },
+  {
+    "id": "C02-11",
+    "courseId": "C02",
+    "topic": "CDI",
+    "question": "À quoi sert CDI dans Jakarta EE et que permettent ses scopes ?",
+    "answer": "CDI, Contexts and Dependency Injection, définit l'injection de dépendances et des services contextuels. Il permet d'injecter des beans gérés dans d'autres composants et de contrôler leur cycle de vie grâce à des scopes comme @RequestScoped, @SessionScoped ou @ApplicationScoped.",
+    "tags": [
+      "CDI",
+      "Injection de dépendances",
+      "Scopes"
+    ]
+  },
+  {
+    "id": "C02-12",
+    "courseId": "C02",
+    "topic": "JPA et Jakarta Data",
+    "question": "Quel est le rôle de JPA et qu'apporte Jakarta Data depuis Jakarta EE 11 ?",
+    "answer": "JPA permet d'interagir avec une base de données relationnelle de façon orientée objet en gérant le mapping objet-relationnel, les requêtes et les transactions. Jakarta Data complète JPA avec des repositories de type CRUD et des fonctionnalités comme la pagination.",
+    "tags": [
+      "JPA",
+      "Jakarta Data",
+      "Persistance"
+    ]
+  },
+  {
+    "id": "C03-01",
+    "courseId": "C03",
+    "topic": "Origine de Spring",
+    "question": "Quel était l'objectif initial du framework Spring lors de sa création ?",
+    "answer": "L'objectif initial de Spring était de faire abstraction d'une partie de la complexité de J2EE afin de faciliter son utilisation et de proposer un framework applicatif plus léger, avec un minimum de contraintes sur les classes.",
+    "tags": [
+      "Spring",
+      "Historique",
+      "J2EE"
+    ]
+  },
+  {
+    "id": "C03-02",
+    "courseId": "C03",
+    "topic": "Configuration Spring",
+    "question": "Comment la configuration des applications Spring a-t-elle évolué au fil du temps ?",
+    "answer": "Spring utilisait initialement beaucoup de configuration XML. Le framework a ensuite évolué vers des classes de configuration Java annotées, des conventions de nommage et des mécanismes de détection automatique des composants.",
+    "tags": [
+      "Configuration",
+      "XML",
+      "Annotations"
+    ]
+  },
+  {
+    "id": "C03-04",
+    "courseId": "C03",
+    "topic": "Architecture modulaire",
+    "question": "Quels sont les six domaines clés de l'architecture modulaire de Spring présentés dans le cours ?",
+    "answer": "Les six domaines sont Core, Intégration, AOP, Accès aux données, Tests et Web.",
+    "tags": [
+      "Architecture",
+      "Modules",
+      "Spring Core"
+    ]
+  },
+  {
+    "id": "C03-06",
+    "courseId": "C03",
+    "topic": "Spring AOP",
+    "question": "Quel problème la programmation orientée aspect cherche-t-elle à résoudre dans Spring ?",
+    "answer": "Spring AOP permet de séparer les préoccupations transversales de la logique métier. Il devient possible d'ajouter des traitements avant ou après des appels de méthodes sans modifier directement la logique interne des classes concernées.",
+    "tags": [
+      "AOP",
+      "Préoccupations transversales",
+      "Modularité"
+    ]
+  },
+  {
+    "id": "C03-07",
+    "courseId": "C03",
+    "topic": "POJO et Beans",
+    "question": "Quelle différence existe-t-il entre un POJO et un Bean Spring ?",
+    "answer": "Un POJO est une classe Java simple qui n'est pas liée à un framework spécifique. Un POJO peut devenir un Bean Spring lorsqu'il est configuré et pris en charge par le conteneur Spring.",
+    "tags": [
+      "POJO",
+      "Bean Spring",
+      "Conteneur"
+    ]
+  },
+  {
+    "id": "C03-08",
+    "courseId": "C03",
+    "topic": "ApplicationContext",
+    "question": "Quel est le rôle de l'ApplicationContext dans une application Spring ?",
+    "answer": "L'ApplicationContext est le conteneur IoC central de Spring. Il gère les Beans Spring, leur création, leur configuration, leur assemblage et leurs dépendances.",
+    "tags": [
+      "ApplicationContext",
+      "IoC",
+      "Beans"
+    ]
+  },
+  {
+    "id": "C03-09",
+    "courseId": "C03",
+    "topic": "Stéréotypes Spring",
+    "question": "Quel rôle jouent les annotations @Service, @Repository et @Controller dans Spring ?",
+    "answer": "@Service spécialise @Component pour les classes portant la logique métier, @Repository pour les composants d'accès aux données et @Controller pour les contrôleurs Spring MVC qui gèrent les requêtes HTTP et orchestrent le flux de l'application.",
+    "tags": [
+      "@Service",
+      "@Repository",
+      "@Controller"
+    ]
+  },
+  {
+    "id": "C03-10",
+    "courseId": "C03",
+    "topic": "Injection de dépendances",
+    "question": "Quelle méthode d'injection de dépendances l'équipe Spring préconise-t-elle et dans quel cas @Autowired devient-il implicite ?",
+    "answer": "L'équipe Spring préconise l'injection par constructeur. Depuis Spring 4.3, lorsqu'une classe ne possède qu'un seul constructeur, l'annotation @Autowired est implicite sur ce constructeur.",
+    "tags": [
+      "Injection par constructeur",
+      "@Autowired",
+      "Dépendances"
+    ]
+  },
+  {
+    "id": "C03-11",
+    "courseId": "C03",
+    "topic": "@Qualifier",
+    "question": "À quoi sert l'annotation @Qualifier lors d'une injection de dépendances ?",
+    "answer": "@Qualifier permet de préciser quelle implémentation d'une interface doit être injectée lorsqu'il existe plusieurs Beans compatibles avec le type demandé.",
+    "tags": [
+      "@Qualifier",
+      "Injection",
+      "Interfaces"
+    ]
+  },
+  {
+    "id": "C03-12",
+    "courseId": "C03",
+    "topic": "Spring Boot",
+    "question": "Quels problèmes Spring Boot cherche-t-il à résoudre par rapport à une application Spring classique ?",
+    "answer": "Spring Boot vise à simplifier la configuration et le déploiement en proposant une configuration par défaut, une gestion automatique des dépendances, un conteneur de servlets embarqué, des fonctionnalités de production et une initialisation rapide de projet via Spring Initializr.",
+    "tags": [
+      "Spring Boot",
+      "Auto-configuration",
+      "Déploiement"
+    ]
+  },
+  {
+    "id": "C04-01",
+    "courseId": "C04",
+    "topic": "Spring MVC",
+    "question": "Qu'est-ce que Spring MVC et dans quelle couche d'une application est-il positionné ?",
+    "answer": "Spring MVC est le module Web du framework Spring. Il implémente le patron Modèle-Vue-Contrôleur afin de séparer l'affichage des traitements et se situe dans la couche Présentation de l'application.",
+    "tags": [
+      "Spring MVC",
+      "MVC",
+      "Présentation"
+    ]
+  },
+  {
+    "id": "C04-02",
+    "courseId": "C04",
+    "topic": "DispatcherServlet",
+    "question": "Quel est le rôle du DispatcherServlet dans Spring MVC ?",
+    "answer": "Le DispatcherServlet joue le rôle de Front Controller. Il constitue le point d'entrée unique des requêtes HTTP et orchestre leur mappage vers les contrôleurs, la résolution des vues et la gestion des exceptions.",
+    "tags": [
+      "DispatcherServlet",
+      "Front Controller",
+      "HTTP"
+    ]
+  },
+  {
+    "id": "C04-03",
+    "courseId": "C04",
+    "topic": "Contrôleurs",
+    "question": "Quel est le rôle de @Controller et quelles annotations peut-on utiliser pour mapper les requêtes HTTP ?",
+    "answer": "@Controller déclare une classe Bean jouant le rôle de contrôleur Spring MVC. Les méthodes peuvent être mappées avec @RequestMapping ou avec des annotations spécialisées comme @GetMapping, @PostMapping, @PutMapping, @DeleteMapping et @PatchMapping.",
+    "tags": [
+      "@Controller",
+      "@RequestMapping",
+      "Mapping"
+    ]
+  },
+  {
+    "id": "C04-05",
+    "courseId": "C04",
+    "topic": "Moteurs de templates",
+    "question": "Quels avantages les moteurs de templates apportent-ils dans une application web ?",
+    "answer": "Ils séparent le code backend de la présentation, permettent la réutilisation des templates, simplifient la génération de vues dynamiques et offrent généralement des mécanismes de filtrage automatique des données qui contribuent à la sécurité.",
+    "tags": [
+      "Templates",
+      "Thymeleaf",
+      "Séparation"
+    ]
+  },
+  {
+    "id": "C04-06",
+    "courseId": "C04",
+    "topic": "Retours de contrôleur",
+    "question": "Que signifie le retour d'une String depuis une méthode de contrôleur Spring MVC et quel autre type permet de renvoyer à la fois une vue et un modèle ?",
+    "answer": "Une String retournée par une méthode de contrôleur correspond généralement au nom de la vue à afficher. ModelAndView permet de retourner simultanément une vue et des objets transmis via le modèle.",
+    "tags": [
+      "String",
+      "ModelAndView",
+      "Contrôleur"
+    ]
+  },
+  {
+    "id": "C04-07",
+    "courseId": "C04",
+    "topic": "@ResponseBody",
+    "question": "Quel est l'effet de l'annotation @ResponseBody sur la valeur retournée par une méthode de contrôleur ?",
+    "answer": "@ResponseBody indique que la valeur retournée par la méthode doit être écrite directement dans le corps de la réponse HTTP au lieu d'être interprétée comme le nom d'une vue.",
+    "tags": [
+      "@ResponseBody",
+      "HTTP",
+      "Réponse"
+    ]
+  },
+  {
+    "id": "C04-08",
+    "courseId": "C04",
+    "topic": "@PathVariable",
+    "question": "À quoi sert @PathVariable et quel type d'URL permet-il de construire ?",
+    "answer": "@PathVariable permet de récupérer une partie variable directement intégrée dans le chemin d'une URL, par exemple /article/{slug}. Cette approche permet de créer des URL structurées et lisibles.",
+    "tags": [
+      "@PathVariable",
+      "URL",
+      "Routing"
+    ]
+  },
+  {
+    "id": "C04-10",
+    "courseId": "C04",
+    "topic": "Gestion des exceptions",
+    "question": "Quelle différence existe-t-il entre @ExceptionHandler et @ControllerAdvice pour la gestion des exceptions ?",
+    "answer": "@ExceptionHandler permet de traiter des exceptions au niveau d'un contrôleur donné. @ControllerAdvice centralise les gestionnaires d'exceptions dans une classe commune qui peut s'appliquer à plusieurs contrôleurs de l'application.",
+    "tags": [
+      "@ExceptionHandler",
+      "@ControllerAdvice",
+      "Exceptions"
+    ]
+  },
+  {
+    "id": "C04-11",
+    "courseId": "C04",
+    "topic": "ProblemDetail",
+    "question": "À quoi sert la classe ProblemDetail dans une API REST Spring ?",
+    "answer": "ProblemDetail permet de produire des réponses d'erreur normalisées conformément à la RFC 9457, généralement avec le type MIME application/problem+json. Elle contient notamment les champs type, title, status, detail et instance.",
+    "tags": [
+      "ProblemDetail",
+      "RFC 9457",
+      "REST"
+    ]
+  },
+  {
+    "id": "C04-12",
+    "courseId": "C04",
+    "topic": "Whitelabel Error Page",
+    "question": "Que faut-il faire pour remplacer la page Whitelabel Error par une page d'erreur personnalisée dans Spring Boot ?",
+    "answer": "Il faut désactiver la page Whitelabel dans application.properties avec spring.web.error.whitelabel.enabled=false puis créer une vue d'erreur personnalisée, par exemple error.html dans le répertoire de templates.",
+    "tags": [
+      "Whitelabel",
+      "error.html",
+      "Spring Boot"
+    ]
+  },
+  {
+    "id": "C05-02",
+    "courseId": "C05",
+    "topic": "REST",
+    "question": "Quels sont les principes essentiels de REST présentés dans le cours ?",
+    "answer": "REST est un ensemble de contraintes architecturales défini par Roy Fielding. Les données sont considérées comme des ressources accessibles via des URL distinctes et les interactions s'effectuent principalement via HTTP, souvent avec des représentations JSON.",
+    "tags": [
+      "REST",
+      "Ressources",
+      "HTTP"
+    ]
+  },
+  {
+    "id": "C05-03",
+    "courseId": "C05",
+    "topic": "Richardson Maturity Model",
+    "question": "Quels sont les quatre niveaux du Richardson Maturity Model ?",
+    "answer": "Le modèle comporte le niveau 0, The Swamp of POX ; le niveau 1, Ressources ; le niveau 2, Verbes HTTP ; et le niveau 3, HATEOAS ou contrôles hypermédias.",
+    "tags": [
+      "Richardson",
+      "RMM",
+      "REST"
+    ]
+  },
+  {
+    "id": "C05-04",
+    "courseId": "C05",
+    "topic": "Niveau 0",
+    "question": "Qu'est-ce qui caractérise le niveau 0 du Richardson Maturity Model ?",
+    "answer": "Au niveau 0, HTTP est essentiellement utilisé comme protocole de transport. Les opérations passent par un point d'entrée unique sans véritable distinction de ressources ni exploitation des fonctionnalités RESTful de HTTP.",
+    "tags": [
+      "RMM",
+      "Niveau 0",
+      "POX"
+    ]
+  },
+  {
+    "id": "C05-05",
+    "courseId": "C05",
+    "topic": "Niveau 1",
+    "question": "Quel progrès apporte le niveau 1 du Richardson Maturity Model par rapport au niveau 0 ?",
+    "answer": "Le niveau 1 introduit la notion de ressources accessibles via des URL distinctes, même si l'utilisation des méthodes HTTP reste encore basique.",
+    "tags": [
+      "RMM",
+      "Niveau 1",
+      "Ressources"
+    ]
+  },
+  {
+    "id": "C05-06",
+    "courseId": "C05",
+    "topic": "Niveau 2",
+    "question": "Quel rôle jouent les verbes HTTP au niveau 2 du Richardson Maturity Model ?",
+    "answer": "Le niveau 2 utilise les méthodes HTTP de façon cohérente : GET pour récupérer, POST pour créer, PUT pour remplacer ou mettre à jour complètement à une adresse connue, PATCH pour mettre à jour partiellement et DELETE pour supprimer une ressource.",
+    "tags": [
+      "RMM",
+      "Niveau 2",
+      "Verbes HTTP"
+    ]
+  },
+  {
+    "id": "C05-07",
+    "courseId": "C05",
+    "topic": "HATEOAS",
+    "question": "Quel est l'objectif de HATEOAS au niveau 3 du modèle Richardson ?",
+    "answer": "HATEOAS permet au client de naviguer dans l'API et de découvrir des actions ou ressources accessibles grâce à des liens hypermédias inclus dans les réponses, ce qui réduit sa dépendance à une documentation externe figée.",
+    "tags": [
+      "HATEOAS",
+      "Niveau 3",
+      "Hypermédia"
+    ]
+  },
+  {
+    "id": "C05-08",
+    "courseId": "C05",
+    "topic": "@RestController",
+    "question": "Quelle différence existe-t-il entre @ResponseBody et @RestController ?",
+    "answer": "@ResponseBody indique que la valeur retournée par une méthode doit être écrite dans le corps de la réponse et généralement convertie en JSON ou XML. @RestController combine @Controller et @ResponseBody au niveau de la classe pour simplifier la création de contrôleurs REST.",
+    "tags": [
+      "@RestController",
+      "@ResponseBody",
+      "REST"
+    ]
+  },
+  {
+    "id": "C05-09",
+    "courseId": "C05",
+    "topic": "Spring HATEOAS",
+    "question": "Quelle dépendance Spring Boot permet de créer des API de niveau 3 avec HATEOAS et quel type de modèle est utilisé pour inclure des liens ?",
+    "answer": "La dépendance spring-boot-starter-hateoas. Les modèles peuvent étendre RepresentationModel afin d'inclure des liens hypermédias dans les réponses.",
+    "tags": [
+      "Spring HATEOAS",
+      "RepresentationModel",
+      "Liens"
+    ]
+  },
+  {
+    "id": "C05-10",
+    "courseId": "C05",
+    "topic": "Spring Data REST",
+    "question": "Que permet la dépendance spring-boot-starter-data-rest et quelle précaution faut-il prendre ?",
+    "answer": "Elle permet de publier automatiquement des ressources reposant sur des repositories JPA sous forme d'API RESTful. Le comportement par défaut est très permissif, donc il faut contrôler les éléments exposés, notamment avec la configuration ou @RestResource(exported = false).",
+    "tags": [
+      "Spring Data REST",
+      "Repository",
+      "Exposition"
+    ]
+  },
+  {
+    "id": "C05-12",
+    "courseId": "C05",
+    "topic": "Sérialisation",
+    "question": "Quelle différence existe-t-il entre sérialisation et désérialisation dans les appels de Web Services ?",
+    "answer": "La sérialisation consiste à convertir des objets Java en une représentation comme JSON. La désérialisation effectue l'opération inverse en convertissant une réponse JSON reçue du serveur en objets Java utilisables par l'application.",
+    "tags": [
+      "Sérialisation",
+      "Désérialisation",
+      "JSON"
+    ]
+  },
+  {
+    "id": "C06-01",
+    "courseId": "C06",
+    "topic": "Spring Security",
+    "question": "Quelles sont les deux grandes fonctions de Spring Security dans une application Spring ?",
+    "answer": "Spring Security gère principalement l'authentification, c'est-à-dire la vérification de l'identité des utilisateurs, et l'autorisation, c'est-à-dire la détermination des ressources et opérations auxquelles un utilisateur authentifié a le droit d'accéder.",
+    "tags": [
+      "Spring Security",
+      "Authentification",
+      "Autorisation"
+    ]
+  },
+  {
+    "id": "C06-02",
+    "courseId": "C06",
+    "topic": "Authentification vs autorisation",
+    "question": "Quelle différence faut-il faire entre authentification et autorisation ?",
+    "answer": "L'authentification répond à la question « qui est l'utilisateur ? » en vérifiant son identité. L'autorisation répond ensuite à la question « que peut-il faire ? » en contrôlant les actions et ressources accessibles.",
+    "tags": [
+      "Authentification",
+      "Autorisation",
+      "Contrôle d'accès"
+    ]
+  },
+  {
+    "id": "C06-06",
+    "courseId": "C06",
+    "topic": "Chaîne de filtres",
+    "question": "Pourquoi l'ordre des filtres est-il important dans Spring Security ?",
+    "answer": "Les requêtes HTTP sont interceptées par une chaîne de filtres exécutés de manière séquentielle. Chaque filtre décide s'il traite ou non la requête, donc leur ordre détermine la manière dont s'enchaînent authentification, gestion des erreurs et autorisation.",
+    "tags": [
+      "SecurityFilterChain",
+      "Filtres",
+      "HTTP"
+    ]
+  },
+  {
+    "id": "C06-07",
+    "courseId": "C06",
+    "topic": "Configuration par défaut",
+    "question": "Que met en place Spring Security par défaut lorsqu'on ajoute la dépendance de sécurité sans configuration personnalisée ?",
+    "answer": "Par défaut, Spring Security crée un utilisateur en mémoire nommé user et génère un mot de passe à chaque démarrage de l'application.",
+    "tags": [
+      "Configuration",
+      "Utilisateur par défaut",
+      "Spring Security"
+    ]
+  },
+  {
+    "id": "C06-08",
+    "courseId": "C06",
+    "topic": "Mots de passe",
+    "question": "Pourquoi ne faut-il jamais stocker les mots de passe en clair et quels encodeurs sont cités dans le cours ?",
+    "answer": "Les mots de passe doivent être hachés afin qu'une fuite de stockage ne révèle pas directement les secrets. Le cours cite notamment BCryptPasswordEncoder, Argon2PasswordEncoder et Pbkdf2PasswordEncoder, avec DelegatingPasswordEncoder comme mécanisme par défaut.",
+    "tags": [
+      "PasswordEncoder",
+      "BCrypt",
+      "Hash"
+    ]
+  },
+  {
+    "id": "C06-09",
+    "courseId": "C06",
+    "topic": "Autorisation par annotations",
+    "question": "Quelles annotations de sécurité de méthodes sont présentées et lesquelles sont à privilégier en Spring Security 7 ?",
+    "answer": "@Secured, @PreAuthorize, @PostAuthorize, @PreFilter et @PostFilter. Depuis Spring Security 7, il recommande de privilégier @PreAuthorize et @PostAuthorize.",
+    "tags": [
+      "@PreAuthorize",
+      "@PostAuthorize",
+      "@Secured"
+    ]
+  },
+  {
+    "id": "C06-12",
+    "courseId": "C06",
+    "topic": "Tests de sécurité",
+    "question": "À quoi servent @WithMockUser et @WithAnonymousUser dans les tests Spring Security ?",
+    "answer": "@WithMockUser simule un utilisateur authentifié avec éventuellement un nom et des rôles. @WithAnonymousUser simule un utilisateur non authentifié afin de vérifier les accès publics et les refus d'accès. Ces fonctionnalités nécessitent la dépendance spring-security-test.",
+    "tags": [
+      "@WithMockUser",
+      "@WithAnonymousUser",
+      "Tests"
+    ]
+  }
+]
